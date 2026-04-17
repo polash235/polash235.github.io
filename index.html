@@ -109,6 +109,37 @@ function loadData(){
 <div class="footer">
   © 2026 Polash Site | All Rights Reserved
 </div>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyDD...", 
+  authDomain: "polashsite.firebaseapp.com",
+  projectId: "polashsite",
+  storageBucket: "polashsite.appspot.com",
+  messagingSenderId: "128802637163",
+  appId: "1:128802637163:web:xxxx"
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+
+db.collection("items").get().then((snapshot)=>{
+  snapshot.forEach((doc)=>{
+    let item = doc.data();
+
+    let div = document.createElement("div");
+    div.className="card";
+
+    div.innerHTML = `
+      <h3>${item.title}</h3>
+      <a href="${item.link}" class="btn">⬇ Download</a>
+    `;
+
+    document.getElementById("data").appendChild(div);
+  });
+});
+</script>
 </body>
 </html>
