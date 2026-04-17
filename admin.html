@@ -1,9 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{background:#111;color:white;text-align:center;font-family:sans-serif}
+    input,select{
+      padding:10px;
+      margin:5px;
+      width:80%;
+      border:none;
+      border-radius:5px;
+    }
+    button{
+      padding:10px;
+      background:red;
+      color:white;
+      border:none;
+      border-radius:5px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Admin Panel 🔥</h2>
+
+<input id="title" placeholder="Title"><br>
+<input id="type" placeholder="Type"><br>
+<input id="link" placeholder="Download Link"><br>
+
+<button onclick="addItem()">Add Item</button>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
 var firebaseConfig = {
-  apiKey: "AIzaSyDD...",
+  apiKey: "YOUR_API_KEY",
   authDomain: "polashsite.firebaseapp.com",
   projectId: "polashsite"
 };
@@ -22,6 +55,9 @@ function addItem(){
     link:link
   });
 
-  alert("Added to Firebase 🔥");
+  alert("Added সফল হয়েছে 🔥");
 }
 </script>
+
+</body>
+</html>
