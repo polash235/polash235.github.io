@@ -5,123 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      background: #0d0d0d;
-      color: white;
-      font-family: Arial;
-      margin: 0;
+      background:#0d0d0d;
+      color:white;
+      font-family:Arial;
+      margin:0;
     }
 
     .header {
-      background: linear-gradient(to right, red, darkred);
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
+      background:linear-gradient(red,darkred);
+      padding:15px;
+      text-align:center;
+      font-size:22px;
+      font-weight:bold;
     }
 
     .menu {
-      background: #1a1a1a;
-      padding: 12px;
-      text-align: center;
-      border-bottom: 2px solid red;
+      background:#111;
+      padding:10px;
+      text-align:center;
     }
 
     .menu a {
-      color: white;
-      margin: 8px;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 6px 10px;
-      border-radius: 5px;
+      color:white;
+      margin:8px;
+      text-decoration:none;
     }
 
-    .menu a:hover {
-      background: red;
+    .container {
+      padding:10px;
     }
 
-    .box {
-      background: #1c1c1c;
-      margin: 10px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #000;
+    .card {
+      background:#1c1c1c;
+      margin:10px 0;
+      padding:10px;
+      border-radius:10px;
+      display:flex;
+      gap:10px;
+    }
+
+    .card img {
+      width:100px;
+      height:80px;
+      border-radius:5px;
     }
 
     .btn {
-      display: inline-block;
-      background: red;
-      padding: 8px 15px;
-      margin-top: 10px;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
+      display:inline-block;
+      background:green;
+      padding:6px 12px;
+      margin-top:5px;
+      color:white;
+      text-decoration:none;
+      border-radius:5px;
     }
 
-    .btn:hover {
-      background: darkred;
+    .footer {
+      text-align:center;
+      padding:15px;
+      background:#111;
+      margin-top:20px;
+      font-size:14px;
     }
   </style>
+
+<script>
+function loadData(){
+  let data = JSON.parse(localStorage.getItem("items")) || [];
+  let container = document.getElementById("data");
+
+  data.forEach(item=>{
+    let div = document.createElement("div");
+    div.className="card";
+
+    div.innerHTML = `
+      <img src="https://via.placeholder.com/100x80">
+      <div>
+        <h4>${item.title}</h4>
+        <p>${item.type}</p>
+        <a href="${item.link}" class="btn">⬇ Download</a>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+</script>
+
 </head>
 
-<body>
+<body onload="loadData()">
 
 <div class="header">🔥 Polash Wapka Site</div>
 
 <div class="menu">
-  <a href="#">🏠 Home</a>
-  <a href="#">🎬 Movies</a>
-  <a href="#">🎵 Songs</a>
-  <a href="#">📞 Contact</a>
+  <a href="index.html">Home</a>
+  <a href="admin.html">Admin</a>
 </div>
 
-<div class="box">
-  <h3>Welcome</h3>
-  <p>Welcome to Polash Wapka Style Site 😎</p>
+<div class="container" id="data">
 </div>
 
-<div class="box">
-  <h3>Latest Movie</h3>
-  <p>Movie Name: Example Movie</p>
-  <a href="movie1.html" class="btn">🎬 View</a>
+<div class="footer">
+  © 2026 Polash Site | All Rights Reserved
 </div>
 
-<div class="box
-<body>
-
-<div class="header">🔥 Polash Site</div>
-
-<div class="menu">
-  <a href="#">Home</a>
-  <a href="#">Movies</a>
-  <a href="#">Songs</a>
-  <a href="#">Contact</a>
-</div>
-
-<div class="box">
-  <h3>Welcome</h3>
-  <p>এটা তোমার GitHub site 😎</p>
-</div>
-
-<div class="box">
-  <h3>Download</h3>
-  <p>এখানে তুমি file link দিতে পারবা</p>
-</div>
-<script>
-let container = document.body;
-
-let data = JSON.parse(localStorage.getItem("items")) || [];
-
-data.forEach(item => {
-  let div = document.createElement("div");
-  div.className = "box item " + item.type;
-
-  div.innerHTML = `
-    <h3>${item.title}</h3>
-    <a href="${item.link}" class="btn">⬇ Download</a>
-  `;
-
-  container.appendChild(div);
-});
-</script>
 </body>
 </html>
