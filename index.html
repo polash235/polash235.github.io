@@ -2,17 +2,16 @@
 <html>
 <head>
   <title>Polash Wapka Site</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      background:#0d0d0d;
-      color:white;
-      font-family:Arial;
       margin:0;
+      background:#000;
+      color:#fff;
+      font-family: Arial;
     }
 
     .header {
-      background:linear-gradient(red,darkred);
+      background:red;
       padding:15px;
       text-align:center;
       font-size:22px;
@@ -26,8 +25,8 @@
     }
 
     .menu a {
-      color:white;
-      margin:8px;
+      color:#fff;
+      margin:10px;
       text-decoration:none;
     }
 
@@ -35,27 +34,36 @@
       padding:10px;
     }
 
-    .card {
-      background:#1c1c1c;
+    .box {
+      background:#111;
+      padding:15px;
       margin:10px 0;
-      padding:10px;
       border-radius:10px;
-      display:flex;
-      gap:10px;
     }
 
-    .card img {
-      width:100px;
-      height:80px;
+    input {
+      width:100%;
+      padding:10px;
+      margin:5px 0;
+      border:none;
       border-radius:5px;
     }
 
-    .btn {
-      display:inline-block;
+    button {
+      background:red;
+      color:#fff;
+      padding:10px;
+      border:none;
+      margin-top:10px;
+      border-radius:5px;
+    }
+
+    .download {
       background:green;
-      padding:6px 12px;
-      margin-top:5px;
-      color:white;
+      padding:8px 15px;
+      display:inline-block;
+      margin-top:10px;
+      color:#fff;
       text-decoration:none;
       border-radius:5px;
     }
@@ -65,116 +73,96 @@
       padding:15px;
       background:#111;
       margin-top:20px;
-      font-size:14px;
     }
   </style>
-
-<script>
-function loadData(){
-  let data = JSON.parse(localStorage.getItem("items")) || [];
-  let container = document.getElementById("data");
-
-  data.forEach(item=>{
-    let div = document.createElement("div");
-    div.className="card";
-
-    div.innerHTML = `
-      <img src="https://via.placeholder.com/100x80">
-      <div>
-        <h4>${item.title}</h4>
-        <p>${item.type}</p>
-        <a href="${item.link}" class="btn">⬇ Download</a>
-      </div>
-    `;
-
-    container.appendChild(div);
-  });
-}
-</script>
-
 </head>
 
-<body onload="loadData()">
+<body>
 
 <div class="header">🔥 Polash Wapka Site</div>
 
 <div class="menu">
-  
-  <a href="index.html">Home</a>
-  <a href="admin.html">Admin</a>
-</div> 
-  <div id="data"></div>
-
-<div class="container" id="data">
+  <a href="#" onclick="showHome()">Home</a>
+  <a href="#" onclick="showAdmin()">Admin</a>
 </div>
 
-<div class="footer">
-  © 2026 Polash Site | All Rights Reserved
+<div class="container" id="home"></div>
+
+<div class="container" id="admin" style="display:none;">
+  <h2>Admin Panel 🔥</h2>
+
+  <input type="text" id="title" placeholder="Title">
+  <input type="text" id="type" placeholder="Type">
+  <input type="text" id="category" placeholder="Category (Movie / Song / App)">
+  <input type="text" id="link" placeholder="Download Link">
+
+  <button onclick="addItem()">Add Item</button>
 </div>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-<script>
-var firebaseConfig = {
-  apiKey: "AIzaSyDD...", 
-  authDomain: "polashsite.firebaseapp.com",
-  projectId: "polashsite",
-  storageBucket: "polashsite.appspot.com",
-  messagingSenderId: "128802637163",
-  appId: "1:128802637163:web:xxxx"
-};
+<div class="footer">© 2026 Polash Site | All Rights Reserved</div>
 
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-db.collection("items").get().then((snapshot)=>{
-  snapshot.forEach((doc)=>{
-    let item = doc.data();
-
-    let div = document.createElement("div");
-    div.className="card";
-
-    div.innerHTML = `
-      <h3>${item.title}</h3>
-      <a href="${item.link}" class="btn">⬇ Download</a>
-    `;
-
-    document.getElementById("data").appendChild(div);
-  });
-}); <div id="data"></div>
-</script>
-</body> <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-<script>
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
-  authDomain: "polashsite.firebaseapp.com",
-  projectId: "polashsite"
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
 };
 
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-db.collection("items").get().then((snapshot)=>{
-  snapshot.forEach((doc)=>{
-    let item = doc.data();
+window.showHome = function() {
+  document.getElementById("home").style.display="block";
+  document.getElementById("admin").style.display="none";
+  loadItems();
+}
 
-    let div = document.createElement("div");
-    div.style.background="#222";
-    div.style.margin="10px";
-    div.style.padding="10px";
-    div.style.borderRadius="5px";
+window.showAdmin = function() {
+  document.getElementById("home").style.display="none";
+  document.getElementById("admin").style.display="block";
+}
 
-    div.innerHTML = `
-      <h3>${item.title}</h3>
-      <a href="${item.link}" style="color:red">Download</a>
-    `;
+window.addItem = async function() {
+  const title = document.getElementById("title").value;
+  const type = document.getElementById("type").value;
+  const category = document.getElementById("category").value;
+  const link = document.getElementById("link").value;
 
-    document.getElementById("data").appendChild(div);
+  await addDoc(collection(db, "items"), {
+    title, type, category, link
   });
-});
+
+  alert("Item Added ✅");
+}
+
+async function loadItems() {
+  const home = document.getElementById("home");
+  home.innerHTML = "";
+
+  const querySnapshot = await getDocs(collection(db, "items"));
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    home.innerHTML += `
+      <div class="box">
+        <h3>${data.title}</h3>
+        <p>${data.type}</p>
+        <p>Category: ${data.category}</p>
+        <a href="${data.link}" class="download">⬇ Download</a>
+      </div>
+    `;
+  });
+}
+
+loadItems();
 </script>
+
+</body>
 </html>
-
-
