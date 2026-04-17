@@ -106,6 +106,22 @@
   <h3>Download</h3>
   <p>এখানে তুমি file link দিতে পারবা</p>
 </div>
+<script>
+let container = document.body;
 
+let data = JSON.parse(localStorage.getItem("items")) || [];
+
+data.forEach(item => {
+  let div = document.createElement("div");
+  div.className = "box item " + item.type;
+
+  div.innerHTML = `
+    <h3>${item.title}</h3>
+    <a href="${item.link}" class="btn">⬇ Download</a>
+  `;
+
+  container.appendChild(div);
+});
+</script>
 </body>
 </html>
