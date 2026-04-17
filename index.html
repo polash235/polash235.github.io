@@ -99,9 +99,11 @@ function loadData(){
 <div class="header">🔥 Polash Wapka Site</div>
 
 <div class="menu">
+  
   <a href="index.html">Home</a>
   <a href="admin.html">Admin</a>
-</div>
+</div> 
+  <div id="data"></div>
 
 <div class="container" id="data">
 </div>
@@ -141,5 +143,38 @@ db.collection("items").get().then((snapshot)=>{
   });
 }); <div id="data"></div>
 </script>
-</body>
+</body> <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+var firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "polashsite.firebaseapp.com",
+  projectId: "polashsite"
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+
+db.collection("items").get().then((snapshot)=>{
+  snapshot.forEach((doc)=>{
+    let item = doc.data();
+
+    let div = document.createElement("div");
+    div.style.background="#222";
+    div.style.margin="10px";
+    div.style.padding="10px";
+    div.style.borderRadius="5px";
+
+    div.innerHTML = `
+      <h3>${item.title}</h3>
+      <a href="${item.link}" style="color:red">Download</a>
+    `;
+
+    document.getElementById("data").appendChild(div);
+  });
+});
+</script>
 </html>
+
+
