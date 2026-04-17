@@ -1,167 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Polash Wapka Site</title>
-  <style>
-    body {
-      margin:0;
-      background:#000;
-      color:#fff;
-      font-family: Arial;
-    }
-
-    .header {
-      background:red;
-      padding:15px;
-      text-align:center;
-      font-size:22px;
-      font-weight:bold;
-    }
-
-    .menu {
-      background:#111;
-      padding:10px;
-      text-align:center;
-    }
-
-    .menu a {
-      color:#fff;
-      margin:10px;
-      text-decoration:none;
-    }
-
-    .container {
-      padding:10px;
-    }
-
-    .box {
-      background:#111;
-      padding:15px;
-      margin:10px 0;
-      border-radius:10px;
-    }
-
-    input {
-      width:100%;
-      padding:10px;
-      margin:5px 0;
-      border:none;
-      border-radius:5px;
-    }
-
-    button {
-      background:red;
-      color:#fff;
-      padding:10px;
-      border:none;
-      margin-top:10px;
-      border-radius:5px;
-    }
-
-    .download {
-      background:green;
-      padding:8px 15px;
-      display:inline-block;
-      margin-top:10px;
-      color:#fff;
-      text-decoration:none;
-      border-radius:5px;
-    }
-
-    .footer {
-      text-align:center;
-      padding:15px;
-      background:#111;
-      margin-top:20px;
-    }
-  </style>
+<title>Polash Wapka Site</title>
+<style>
+body{background:#000;color:#fff;font-family:sans-serif;}
+.header{background:red;padding:10px;text-align:center;font-weight:bold;}
+.item{background:#111;margin:10px;padding:10px;border-radius:5px;}
+a{color:yellow;}
+</style>
 </head>
 
 <body>
 
 <div class="header">🔥 Polash Wapka Site</div>
 
-<div class="menu">
-  <a href="#" onclick="showHome()">Home</a>
-  <a href="#" onclick="showAdmin()">Admin</a>
-</div>
+<div id="content"></div>
 
-<div class="container" id="home"></div>
+<script>
+let items = JSON.parse(localStorage.getItem("items")) || [];
 
-<div class="container" id="admin" style="display:none;">
-  <h2>Admin Panel 🔥</h2>
+let html = "";
 
-  <input type="text" id="title" placeholder="Title">
-  <input type="text" id="type" placeholder="Type">
-  <input type="text" id="category" placeholder="Category (Movie / Song / App)">
-  <input type="text" id="link" placeholder="Download Link">
+items.reverse().forEach(item=>{
+  html += `
+  <div class="item">
+    <h3>${item.title}</h3>
+    <p>Category: ${item.type}</p>
+    <a href="${item.link}" target="_blank">Download</a>
+  </div>
+  `;
+});
 
-  <button onclick="addItem()">Add Item</button>
-</div>
-
-<div class="footer">© 2026 Polash Site | All Rights Reserved</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-window.showHome = function() {
-  document.getElementById("home").style.display="block";
-  document.getElementById("admin").style.display="none";
-  loadItems();
-}
-
-window.showAdmin = function() {
-  document.getElementById("home").style.display="none";
-  document.getElementById("admin").style.display="block";
-}
-
-window.addItem = async function() {
-  const title = document.getElementById("title").value;
-  const type = document.getElementById("type").value;
-  const category = document.getElementById("category").value;
-  const link = document.getElementById("link").value;
-
-  await addDoc(collection(db, "items"), {
-    title, type, category, link
-  });
-
-  alert("Item Added ✅");
-}
-
-async function loadItems() {
-  const home = document.getElementById("home");
-  home.innerHTML = "";
-
-  const querySnapshot = await getDocs(collection(db, "items"));
-
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-
-    home.innerHTML += `
-      <div class="box">
-        <h3>${data.title}</h3>
-        <p>${data.type}</p>
-        <p>Category: ${data.category}</p>
-        <a href="${data.link}" class="download">⬇ Download</a>
-      </div>
-    `;
-  });
-}
-
-loadItems();
+document.getElementById("content").innerHTML = html;
 </script>
 
 </body>
